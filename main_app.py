@@ -41,49 +41,77 @@ if uploaded_file is not None:
         ["전체 점포 수", "개업/폐업 점포 수", "상권 활력도", "3년 내 폐업 비율"]
     )
 
-    if analysis_type == "전체 점포 수":
-        st.subheader("전체 점포 수 분석")
-        plt.figure(figsize=(10, 6))
-        plt.plot(data['기간'], data['전체점포수'], marker='o', label='전체 점포 수')
-        plt.title('기간에 따른 전체 점포 수')
-        plt.xlabel('기간')
-        plt.ylabel('점포 수')
-        plt.grid(True)
-        plt.legend()
-        st.pyplot(plt)
+# 전체 점포 수 분석
+if analysis_type == "전체 점포 수":
+    st.subheader("전체 점포 수 분석")
+    plt.figure(figsize=(10, 6))
+    plt.plot(data['기간'], data['전체점포수'], marker='o', label='전체 점포 수')
+    plt.title('기간에 따른 전체 점포 수')
+    plt.xlabel('기간')
+    plt.ylabel('점포 수')
+    plt.grid(True)
+    plt.legend()
 
-    elif analysis_type == "개업/폐업 점포 수":
-        st.subheader("개업 및 폐업 점포 수 분석")
-        plt.figure(figsize=(10, 6))
-        plt.plot(data['기간'], data['개업점포'], marker='o', label='개업 점포 수', color='blue')
-        plt.plot(data['기간'], data['폐업점포'], marker='o', label='폐업 점포 수', color='red')
-        plt.title('기간에 따른 개업 및 폐업 점포 수')
-        plt.xlabel('기간')
-        plt.ylabel('점포 수')
-        plt.grid(True)
-        plt.legend()
-        st.pyplot(plt)
+    # X축 간격 조정 (3개월 단위)
+    xticks_interval = 3  # 3개월 간격
+    xticks = range(0, len(data['기간']), xticks_interval)
+    plt.xticks(xticks, [data['기간'][i] for i in xticks], rotation=45)
 
-    elif analysis_type == "상권 활력도":
-        st.subheader("상권 활력도 분석")
-        plt.figure(figsize=(10, 6))
-        plt.plot(data['기간'], data['상권활력정도'], marker='o', color='green')
-        plt.title('기간에 따른 상권 활력도')
-        plt.xlabel('기간')
-        plt.ylabel('상권 활력도')
-        plt.grid(True)
-        st.pyplot(plt)
+    st.pyplot(plt)
 
-    elif analysis_type == "3년 내 폐업 비율":
-        st.subheader("3년 내 폐업 비율 분석")
-        valid_data = data[data['3년내폐업비율(%)'].notnull()]
-        plt.figure(figsize=(10, 6))
-        plt.plot(valid_data['기간'], valid_data['3년내폐업비율(%)'], marker='o', color='purple')
-        plt.title('기간에 따른 3년 내 폐업 비율')
-        plt.xlabel('기간')
-        plt.ylabel('폐업 비율 (%)')
-        plt.grid(True)
-        st.pyplot(plt)
+# 개업/폐업 점포 수 분석
+elif analysis_type == "개업/폐업 점포 수":
+    st.subheader("개업 및 폐업 점포 수 분석")
+    plt.figure(figsize=(10, 6))
+    plt.plot(data['기간'], data['개업점포'], marker='o', label='개업 점포 수', color='blue')
+    plt.plot(data['기간'], data['폐업점포'], marker='o', label='폐업 점포 수', color='red')
+    plt.title('기간에 따른 개업 및 폐업 점포 수')
+    plt.xlabel('기간')
+    plt.ylabel('점포 수')
+    plt.grid(True)
+    plt.legend()
+
+    # X축 간격 조정 (3개월 단위)
+    xticks_interval = 3  # 3개월 간격
+    xticks = range(0, len(data['기간']), xticks_interval)
+    plt.xticks(xticks, [data['기간'][i] for i in xticks], rotation=45)
+
+    st.pyplot(plt)
+
+# 상권 활력도 분석
+elif analysis_type == "상권 활력도":
+    st.subheader("상권 활력도 분석")
+    plt.figure(figsize=(10, 6))
+    plt.plot(data['기간'], data['상권활력정도'], marker='o', color='green')
+    plt.title('기간에 따른 상권 활력도')
+    plt.xlabel('기간')
+    plt.ylabel('상권 활력도')
+    plt.grid(True)
+
+    # X축 간격 조정 (3개월 단위)
+    xticks_interval = 3  # 3개월 간격
+    xticks = range(0, len(data['기간']), xticks_interval)
+    plt.xticks(xticks, [data['기간'][i] for i in xticks], rotation=45)
+
+    st.pyplot(plt)
+
+# 3년 내 폐업 비율 분석
+elif analysis_type == "3년 내 폐업 비율":
+    st.subheader("3년 내 폐업 비율 분석")
+    valid_data = data[data['3년내폐업비율(%)'].notnull()]
+    plt.figure(figsize=(10, 6))
+    plt.plot(valid_data['기간'], valid_data['3년내폐업비율(%)'], marker='o', color='purple')
+    plt.title('기간에 따른 3년 내 폐업 비율')
+    plt.xlabel('기간')
+    plt.ylabel('폐업 비율 (%)')
+    plt.grid(True)
+
+    # X축 간격 조정 (3개월 단위)
+    xticks_interval = 3  # 3개월 간격
+    xticks = range(0, len(valid_data['기간']), xticks_interval)
+    plt.xticks(xticks, [valid_data['기간'].iloc[i] for i in xticks], rotation=45)
+
+    st.pyplot(plt)
 
 else:
     st.sidebar.warning("CSV 파일을 업로드해주세요.")
